@@ -1,59 +1,109 @@
 CREATE TABLE utilizadores(
-	codigo_assembleia int not null auto_increment,
+	codigo_utilizador int PRIMARY KEY,
     nome_utilizador varchar(20),
     palavra_passe varchar(50),
     tipo char(1),
     telemovel varchar(13),
-    email varchar(32),
-    foto varchar(32),
-    PRIMARY KEY (codigo_assembleia)
+    email varchar(50),
+    foto varchar(32)
 );
 
 CREATE TABLE ocorrencias(
-    codigo_ocorrencias int not null auto_increment,
-    titulo int,
+    codigo_ocorrencias int PRIMARY KEY,
+    titulo varchar(50),
     descricao text,
     foto varchar (32),
     data_hora datetime,
     codigo_tipo int,
     codigo_utilizador int,
     codig_bairro int,
-    codigo_rua int,
-    PRIMARY KEY (codigo_ocorrencias),
+    codigo_rua int
     FOREIGN KEY (codigo_utilizador) REFERENCES utilizadores(codigo_utilizador)
     FOREIGN KEY (codig_bairro) REFERENCES bairros(codig_bairro)
     FOREIGN KEY (codigo_rua) REFERENCES ruas(codigo_rua)
 );
 
 CREATE TABLE tipos_ocorrencias(
-    codigo_tipos_ocorrencia int not null auto_increment,
-    descricao text,
-    PRIMARY KEY (codigo_tipos_ocorrencias),
+    codigo_tipos_ocorrencia int PRIMARY KEY,
+    descricao text
 );
 
 CREATE TABLE provincias(
-    codigo_provincia int not null auto_increment,
-    descricao text,
-    PRIMARY KEY (codigo_PR_candidato),
+    codigo_provincia int PRIMARY KEY,
+    descricao text
 );
 
 CREATE TABLE municipios(
-    codigo_municipio int not null auto_increment,
+    codigo_municipio int PRIMARY KEY,
     descricao text,
-    PRIMARY KEY (codigo_partido),
+    codigo_provincia int,
     FOREIGN KEY (codigo_provincia) REFERENCES provincias(codigo_provincia)
 );
 
 CREATE TABLE bairros(
-    codigo_bairro int not null auto_increment,
+    codigo_bairro int PRIMARY KEY,
     descricao text,
-    PRIMARY KEY (codigo_partido),
+    codigo_municipio int,
     FOREIGN KEY (codigo_municipio) REFERENCES municipios(codigo_municipio)
 );
 
 CREATE TABLE ruas(
-    codigo_rua int not null auto_increment,
+    codigo_rua int PRIMARY KEY,
     descricao text,
-    PRIMARY KEY (codigo_rua),
+    codigo_municipio int,
     FOREIGN KEY (codigo_municipio) REFERENCES municipios(codigo_municipio)
 );
+
+/*
+
+Tabelas pendentes... Ideia em análise.
+
+CREATE TABLE nums_emergencias(
+    codigo_policia int,
+    codigo_bombeiro int,
+    codigo_ambulancia int
+    PRIMARY KEY (codigo_policia, codigo_bombeiro , codigo_ambulancia)
+    FOREIGN KEY (codigo_policia) REFERENCES policias(codigo_policia)
+    FOREIGN KEY (codigo_bombeiro) REFERENCES bombeiros(codigo_bombeiro)
+    FOREIGN KEY (codigo_ambulancia) REFERENCES ambulancias(codigo_ambulancia)
+);
+
+CREATE TABLE policias(
+    codigo_policia int,
+    nome varchar(50),
+    telemovel varchar(13),
+    codigo_utilizador int
+    FOREIGN KEY (codigo_utilizador) REFERENCES utilizadores(codigo_utilizador)
+);
+
+CREATE TABLE bombeiros(
+    codigo_bombeiro int,
+    nome varchar(50),
+    telemovel varchar(13),
+    codigo_utilizador int
+    FOREIGN KEY (codigo_utilizador) REFERENCES utilizadores(codigo_utilizador)
+);
+
+CREATE TABLE ambulancia(
+    codigo_ambulancia int,
+    nome varchar(50),
+    telemovel varchar(13),
+    codigo_utilizador int
+    FOREIGN KEY (codigo_utilizador) REFERENCES utilizadores(codigo_utilizador)
+);
+
+CREATE TABLE pontuacoes(
+    codigo_pontuacao int PRIMARY KEY,
+    ponto_positivo int,
+    ponto_negativo int,
+    codigo_utilizador int,
+    FOREIGN KEY (codigo_utilizador) REFERENCES gostos(codigo_utilizador)
+);
+
+CREATE TABLE comentarios(
+    codigo_comentario int PRIMARY KEY,
+    comentario text
+    FOREIGN KEY (codigo_utilizador) REFERENCES gostos(codigo_utilizador)
+);
+
+*/
