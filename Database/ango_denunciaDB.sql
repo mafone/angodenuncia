@@ -1,57 +1,58 @@
 CREATE TABLE utilizadores(
-	codigo_utilizador int PRIMARY KEY,
+	codigo_utilizador int auto_increment PRIMARY KEY,
     nome_utilizador varchar(20),
     palavra_passe varchar(50),
     tipo char(1),
-    telemovel varchar(13),
+    telemovel varchar(12),
     email varchar(50),
     foto varchar(32)
 );
 
+CREATE TABLE tipos_ocorrencias(
+    codigo_tipo_ocorrencia int auto_increment PRIMARY KEY,
+    tipo text
+);
+
+CREATE TABLE provincias(
+    codigo_provincia int auto_increment PRIMARY KEY,
+    nome text
+);
+
+CREATE TABLE municipios(
+    codigo_municipio int auto_increment PRIMARY KEY,
+    nome text,
+    codigo_provincia int,
+    FOREIGN KEY (codigo_provincia) REFERENCES provincias(codigo_provincia)
+);
+
+CREATE TABLE bairros(
+    codigo_bairro int auto_increment PRIMARY KEY,
+    nome text,
+    codigo_municipio int,
+    FOREIGN KEY (codigo_municipio) REFERENCES municipios(codigo_municipio)
+);
+
+CREATE TABLE ruas(
+    codigo_rua int auto_increment PRIMARY KEY,
+    nome text,
+    codigo_municipio int,
+    FOREIGN KEY (codigo_municipio) REFERENCES municipios(codigo_municipio)
+);
+
 CREATE TABLE ocorrencias(
-    codigo_ocorrencias int PRIMARY KEY,
+    codigo_ocorrencias int auto_increment PRIMARY KEY,
     titulo varchar(50),
     descricao text,
     foto varchar (32),
     data_hora datetime,
     codigo_tipo int,
     codigo_utilizador int,
-    codig_bairro int,
-    codigo_rua int
-    FOREIGN KEY (codigo_utilizador) REFERENCES utilizadores(codigo_utilizador)
-    FOREIGN KEY (codig_bairro) REFERENCES bairros(codig_bairro)
-    FOREIGN KEY (codigo_rua) REFERENCES ruas(codigo_rua)
-);
-
-CREATE TABLE tipos_ocorrencias(
-    codigo_tipos_ocorrencia int PRIMARY KEY,
-    descricao text
-);
-
-CREATE TABLE provincias(
-    codigo_provincia int PRIMARY KEY,
-    descricao text
-);
-
-CREATE TABLE municipios(
-    codigo_municipio int PRIMARY KEY,
-    descricao text,
-    codigo_provincia int,
-    FOREIGN KEY (codigo_provincia) REFERENCES provincias(codigo_provincia)
-);
-
-CREATE TABLE bairros(
-    codigo_bairro int PRIMARY KEY,
-    descricao text,
-    codigo_municipio int,
-    FOREIGN KEY (codigo_municipio) REFERENCES municipios(codigo_municipio)
-);
-
-CREATE TABLE ruas(
-    codigo_rua int PRIMARY KEY,
-    descricao text,
-    codigo_municipio int,
-    FOREIGN KEY (codigo_municipio) REFERENCES municipios(codigo_municipio)
+    codigo_bairro int,
+    codigo_rua int,
+    FOREIGN KEY (codigo_utilizador) REFERENCES utilizadores(codigo_utilizador),
+    FOREIGN KEY (codigo_bairro) REFERENCES bairros(codigo_bairro),
+    FOREIGN KEY (codigo_rua) REFERENCES ruas(codigo_rua),
+    FOREIGN KEY (codigo_tipo) REFERENCES tipos_ocorrencias(codigo_tipo_ocorrencia)
 );
 
 /*
